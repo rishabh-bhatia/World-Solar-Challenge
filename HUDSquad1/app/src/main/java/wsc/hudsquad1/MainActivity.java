@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -18,10 +19,12 @@ public class MainActivity extends AppCompatActivity {
 
     SeekBar speedSet;
     TextView speed, time, distance;
-    BigDecimal dist = BigDecimal.valueOf(-0.1);
+    //BigDecimal dist = new BigDecimal(0.1);
+    double dist = 0;
     ImageView left, right;
-    int delay = 5000;
-    int period = 2000;
+    int delay = 0;
+    int period = 1000;
+    double s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                 speed.setText(String.valueOf(progress));
+                s = progress;
 
             }
 
@@ -61,13 +65,20 @@ public class MainActivity extends AppCompatActivity {
 
         Timer timer = new Timer();
 
-        timer.scheduleAtFixedRate(new TimerTask() {
+
+       timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                dist = dist.add(BigDecimal.valueOf(0.1));
-                distance.setText((String.valueOf(dist)));
+                /*dist = dist.add(BigDecimal.valueOf(0.1));
+                distance.setText((String.valueOf(dist)));*/
+                dist = dist + s/3600;
+                distance.setText(String.format("%.1f", dist));
+
+
             }
         } ,delay, period);
+
+
 
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -85,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
                         else
                             right.setImageDrawable(null);
+
                     }
                 });
 
