@@ -1,8 +1,10 @@
 package wsc.hudsquad1;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,6 +32,20 @@ public class MainActivity extends AppCompatActivity {
     int speedDelay = 0;
     int speedPeriod = 500;
     int flag = 0;//Flag for speed timer
+    float x1, x2, y1, y2;//Initialising coordinates of Ontouchevent
+    static boolean active = false;//Setting a boolean to check if an activity is active
+
+   /* @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        active = false;
+    }*/
 
 
 
@@ -148,5 +164,27 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction())
+        {
+            case MotionEvent.ACTION_DOWN://When the screen is touched
+                x1 = event.getX();
+                y1 = event.getY();
+                break;
+            case MotionEvent.ACTION_UP://When screen is untouched
+                x2 = event.getX();
+                y2 = event.getY();
+                if (x1>x2)//when swiped right
+                {
+                    Intent i = new Intent(MainActivity.this, BatteryActivity.class);
+                    startActivity(i);
+                    //finish();//Closing current activity
+                }
+                break;
+        }
+        return false;
     }
 }

@@ -1,7 +1,9 @@
 package wsc.hudsquad1;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -31,6 +33,7 @@ public class BatteryActivity extends AppCompatActivity {
     int battery4Flag = 0;//Flag for battery4 timer
     int battery3percentage;//Initial Battery percentage of battery number 3
     int battery4percentage;//Initial battery percentage of battery number 4
+    float x1, x2, y1, y2;//Initialising coordinates of Ontouchevent
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,5 +215,28 @@ public class BatteryActivity extends AppCompatActivity {
             }
         } , batteryDelay, batteryPeriod);
 
+    }
+
+    //Setting up a touch event listener which will detect right swipe and left swipe and then open a new activity.
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction())
+        {
+            case MotionEvent.ACTION_DOWN://When the screen is touched
+                x1 = event.getX();
+                y1 = event.getY();
+                break;
+            case MotionEvent.ACTION_UP://When screen is untouched
+                x2 = event.getX();
+                y2 = event.getY();
+                if (x1>x2)//when swiped right
+                {
+                    Intent i = new Intent(BatteryActivity.this, MainActivity.class);
+                    startActivity(i);
+                    //finish();//Closing current activity
+                }
+                break;
+        }
+        return false;
     }
 }
