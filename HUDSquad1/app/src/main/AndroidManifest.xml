@@ -9,21 +9,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--To make the activity open only one instance at a time, "launchMode has been added and set to
-        single instance. DELETE WHEN CONNECTING SIMULATOR AS THIS MAY CAUSE ISSUES.-->
+        <activity android:name=".AnalogActivity"></activity>
+        <!--
+        To make the activity open only one instance at a time, "launchMode has been added and set to
+        single instance. DELETE WHEN CONNECTING SIMULATOR AS THIS MAY CAUSE ISSUES.
+        -->
         <activity
             android:name=".BatteryActivity"
-            android:launchMode="singleInstance" >
-    </activity>
-    <activity
-        android:name=".MainActivity"
-        android:launchMode="singleInstance">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            android:launchMode="singleInstance"></activity>
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-</application>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 
 </manifest>
