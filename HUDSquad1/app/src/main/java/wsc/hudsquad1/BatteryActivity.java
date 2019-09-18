@@ -18,7 +18,7 @@ public class BatteryActivity extends AppCompatActivity {
 
     //SeekBar speedSet;//Seekbar object
     TextView speed, time, distance, battery1, battery2, battery3, battery4;//Textview objects
-    ProgressBar batteryProg3, batteryProg4;//Progressbar objects
+    ProgressBar batteryProg1, batteryProg2, batteryProg3, batteryProg4;//Progressbar objects
     //BigDecimal dist = new BigDecimal(0.1);
     double dist = 0;//Distance travelled
     ImageView left, right, hazard;//Imageview objects
@@ -29,8 +29,12 @@ public class BatteryActivity extends AppCompatActivity {
     int batteryDelay = 0;//Time taken by timer before first execution
     int batteryPeriod = 200;//Interval after which timer repeats for battery percentage
     int flag = 0;//Flag for speed timer
+    int battery1Flag = 0;//Flag for battery1 timer
+    int battery2Flag = 0;//Flag for battery2 timer
     int battery3Flag = 0;//Flag for battery3 timer
     int battery4Flag = 0;//Flag for battery4 timer
+    int battery1percentage;//Initial Battery percentage of battery number 1
+    int battery2percentage;//Initial Battery percentage of battery number 2
     int battery3percentage;//Initial Battery percentage of battery number 3
     int battery4percentage;//Initial battery percentage of battery number 4
     float x1, x2, y1, y2;//Initialising coordinates of Ontouchevent
@@ -53,15 +57,19 @@ public class BatteryActivity extends AppCompatActivity {
         battery2 = findViewById(R.id.bat2tv);
         battery3 = findViewById(R.id.bat3tv);
         battery4 = findViewById(R.id.bat4tv);
+        batteryProg1 = findViewById(R.id.batteryNo1);
+        batteryProg2 = findViewById(R.id.batteryNo2);
         batteryProg3 = findViewById(R.id.batteryNo3);
         batteryProg4 = findViewById(R.id.batteryNo4);
 
+        battery1percentage = batteryProg1.getProgress();
+        battery2percentage = batteryProg2.getProgress();
         battery3percentage = batteryProg3.getProgress();
         battery4percentage = batteryProg4.getProgress();
 
         //Setting static values of batetry1 and battery2's textviews as they are images
-        battery1.setText("75%");
-        battery2.setText("50%");
+//        battery1.setText("75%");
+//        battery2.setText("50%");
 
 
         /*speedSet.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -163,9 +171,70 @@ public class BatteryActivity extends AppCompatActivity {
         } , delay, period);
 
         //Changing battery percentage dynamically using our custom ProgressBar using a timer
+
+
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+
+
+                if(battery1Flag == 0)
+                {
+                    battery1percentage = battery1percentage + 1;
+                    if (battery1percentage == 100)
+                        battery1Flag = 1;
+                    batteryProg1.setProgress(battery1percentage);
+                    battery1.setText(battery1percentage + "%");
+                    //battery3.setText(String.valueOf(battery3percentage));
+                }
+
+                else if (battery1Flag == 1)
+                {
+
+                    battery1percentage = battery1percentage - 1;
+                    if (battery1percentage == 0)
+                        battery1Flag = 0;
+                    batteryProg1.setProgress(battery1percentage);
+                    battery1.setText(battery1percentage + "%");
+
+                }
+            }
+        } , batteryDelay, batteryPeriod);
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+
+
+                if(battery2Flag == 0)
+                {
+                    battery2percentage = battery2percentage + 1;
+                    if (battery2percentage == 100)
+                        battery2Flag = 1;
+                    batteryProg2.setProgress(battery2percentage);
+                    battery2.setText(battery2percentage + "%");
+                    //battery3.setText(String.valueOf(battery3percentage));
+                }
+
+                else if (battery2Flag == 1)
+                {
+
+                    battery2percentage = battery2percentage - 1;
+                    if (battery2percentage == 0)
+                        battery2Flag = 0;
+                    batteryProg2.setProgress(battery2percentage);
+                    battery2.setText(battery2percentage + "%");
+
+                }
+            }
+        } , batteryDelay, batteryPeriod);
+
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+
+
                 if(battery3Flag == 0)
                 {
                     battery3percentage = battery3percentage + 1;
@@ -188,6 +257,7 @@ public class BatteryActivity extends AppCompatActivity {
                 }
             }
         } , batteryDelay, batteryPeriod);
+
 
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -231,9 +301,14 @@ public class BatteryActivity extends AppCompatActivity {
                 y2 = event.getY();
                 if (x1>x2)//when swiped right
                 {
-                    Intent i = new Intent(BatteryActivity.this, MainActivity.class);
+                    Intent i = new Intent(BatteryActivity.this, AnalogActivity.class);
                     startActivity(i);
                     //finish();//Closing current activity
+                }
+                else if (x1<x2)
+                {
+                    Intent i = new Intent(BatteryActivity.this, MainActivity.class);
+                    startActivity(i);
                 }
                 break;
         }

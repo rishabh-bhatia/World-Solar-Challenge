@@ -183,6 +183,12 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(i);
                     //finish();//Closing current activity
                 }
+
+                else if (x1<x2)
+                {
+                    Intent i = new Intent(MainActivity.this, AnalogActivity.class);
+                    startActivity(i);
+                }
                 break;
         }
         return false;
