@@ -47,7 +47,6 @@
         android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif"
         android:gravity="center"
-        android:text="0"
         android:textAlignment="center"
         android:textColor="#FDEEE7E7"
         android:textSize="300sp"
@@ -151,14 +150,14 @@
         app:srcCompat="@drawable/turnright" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="68dp"
-        android:layout_height="75dp"
+        android:id="@+id/ambTemp"
+        android:layout_width="86dp"
+        android:layout_height="70dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="sans-serif"
-        android:text="16°"
+        android:text="33.9°C"
         android:textColor="#FDEEE7E7"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
