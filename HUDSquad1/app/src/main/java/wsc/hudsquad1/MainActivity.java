@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,18 +39,24 @@ public class MainActivity extends AppCompatActivity {
 
     //SeekBar speedSet;//Seekbar object
     public TextView speed, time, distance, temp;//Textview objects
+    int touchCount = 0;
+    EditText link;
     //BigDecimal dist = new BigDecimal(0.1);
     double dist = 0;//Distance travelled
-    ImageView left, right, hazard;//Imageview objects
+    ImageView left, right, hazard, lowBeam, highBeam, handBrake, seatBelt, airBag, doorOpen, abs, malfunction;//Imageview objects
+    public String leftFlag = "OFF", rightFlag = "OFF";//Flags for indicators
+    String url = "0.0.0.0:5000";//url for simulator network
     int delay = 0;//Time taken by the timer before the first execution
     int period = 500;//Interval after which the timer repeats
     int s = 0;//Value of ProgressBar's realtime position based on which odometric calculations are conducted
     double ss;//double value of s for distance calculation
-    int speedDelay = 0;
-    int speedPeriod = 500;
+    int speedDelay = 0;//Timer delay. Can be removed after simulator is connected
+    int speedPeriod = 500;//Timer period. Can be removed after simulator is connected
     int flag = 0;//Flag for speed timer
     float x1, x2, y1, y2;//Initialising coordinates of Ontouchevent
     static boolean active = false;//Setting a boolean to check if an activity is active
+
+
 
    /* @Override
     public void onStart() {
@@ -63,11 +70,12 @@ public class MainActivity extends AppCompatActivity {
         active = false;
     }*/
 
+
     private Socket socket;
     {
         try {
             //localhost, 127.0.0.1 OR [::1] - will not work here. Use your local ip address
-            socket = IO.socket("http://192.168.0.20:5000"); //http://YourLocalIPAddress:8000
+            socket = IO.socket("http://" + url); //http://YourLocalIPAddress:8000
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -89,11 +97,46 @@ public class MainActivity extends AppCompatActivity {
         left = findViewById(R.id.imageView);
         right = findViewById(R.id.imageView2);
         hazard = findViewById(R.id.imageView10);
+        lowBeam = findViewById(R.id.lowBeam);//Low beam icon
+        highBeam = findViewById(R.id.highBeam);//High beam icon
+        handBrake = findViewById(R.id.handbrake);//Handbrake icon
+        seatBelt = findViewById(R.id.seatBelt);//Seatbelt icon
+        airBag = findViewById(R.id.airBag);//Seatbelt icon
+        doorOpen = findViewById(R.id.doorOpen);//Door open icon
+        abs = findViewById(R.id.abs);//abs icon
+        malfunction = findViewById(R.id.malfunction);//Malfunction for battery or motor
+        link = findViewById(R.id.editText);
 
-        //Calls the socket on function which looks for the update event being emitted from the server and receives the messages
-        socket.on("update", onNewMessage); //This occurs each time a message is sent from the server. Calls onNewMessage() method.
-        socket.connect();   //Connects to the server
+        speed.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if(link.getVisibility() == View.VISIBLE)
+                {
+                    link.setVisibility(view.GONE);
+                    url = link.getText().toString();
+                    Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
+                    try {
+                        //localhost, 127.0.0.1 OR [::1] - will not work here. Use your local ip address
+                        socket = IO.socket("http://" + url); //http://YourLocalIPAddress:8000
+                    } catch (URISyntaxException e) {
+                        throw new RuntimeException(e);
+                    }
+                    //Calls the socket on function which looks for the update event being emitted from the server and receives the messages
+                    socket.on("update", onNewMessage); //This occurs each time a message is sent from the server. Calls onNewMessage() method.
+                    socket.connect();   //Connects to the server
+                }
+                else
+                    link.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
 
+
+
+
+
+        //Initializing timer
+        Timer timer = new Timer();//Timer initialization
         /*speedSet.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -113,9 +156,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });*/
-        //Initializing timer
-        Timer timer = new Timer();//Timer initialization
-
 
 
 //        Date curTime = Calendar.getInstance().getTime();
@@ -130,6 +170,8 @@ public class MainActivity extends AppCompatActivity {
                 SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                 String formattedDate = df.format(c.getTime());
                 time.setText(formattedDate);//.toString());
+
+
             }
         }, 0, 100);
 
@@ -171,44 +213,130 @@ public class MainActivity extends AppCompatActivity {
                 dist = dist + ss/3600;
                 distance.setText(String.format("%.1f", dist) + "km");//Show distance upto 1 decimal place in km
 
-
             }
         } , delay, period);
 
 
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        if (leftFlag.equals("ON")) {
+                            if (left.getDrawable() == null)
+                                left.setImageResource(R.drawable.turnleft);
+
+                            else
+                                left.setImageDrawable(null);
+                        }
+
+                        if (leftFlag.equals("OFF")) {
+                                left.setImageDrawable(null);
+                        }
 
 
-//       //Indicator timer: Run timer every 500 milliseconds and flash indicators + Hazard Icon
-//        timer.scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                MainActivity.this.runOnUiThread(new Runnable() {
-//                    public void run() {
-//                        if (left.getDrawable() == null)
-//                            left.setImageResource(R.drawable.turnleft);
-//
-//                        else
-//                            left.setImageDrawable(null);
-//
-//                        if (right.getDrawable() == null)
-//                            right.setImageResource(R.drawable.turnright);
-//
-//                        else
-//                            right.setImageDrawable(null);
-//
-//                        if (hazard.getDrawable().getConstantState() == getResources().getDrawable(R.drawable.hazardson).getConstantState())
-//                            hazard.setImageResource(R.drawable.hazardsoff);
-//
-//                        else
-//                            hazard.setImageResource(R.drawable.hazardson);
-//                    }
-//                });
-//
-//            }
-//        } , delay, period);
+                        if(rightFlag.equals("ON")) {
+                            if (right.getDrawable() == null)
+                                right.setImageResource(R.drawable.turnright);
 
+                            else
+                                right.setImageDrawable(null);
+                        }
 
+                        if (rightFlag.equals("OFF")) {
+                                right.setImageDrawable(null);
+                        }
 
+                    }
+                });
+
+            }
+        } , delay, period);
+
+    }
+
+    //Setting the status of HUD Icons using simulator data
+    private void lightState(String status, String itemName)
+    {
+        if (itemName == "LowBeam")
+        {
+            if (status.equals("ON"))
+            {
+                lowBeam.setImageResource(R.drawable.lowbeams);
+            }
+            else
+                lowBeam.setImageDrawable(null);
+        }
+
+        if (itemName == "HighBeam")
+        {
+            if (status.equals("ON"))
+            {
+                highBeam.setImageResource(R.drawable.highbeams);
+            }
+            else
+                highBeam.setImageDrawable(null);
+        }
+
+        if (itemName == "HandBrake")
+        {
+            if (status.equals("ON"))
+            {
+                handBrake.setImageResource(R.drawable.brakesystemwarning);
+            }
+            else
+                handBrake.setImageDrawable(null);
+        }
+
+        if (itemName == "SeatBelt")
+        {
+            if (status.equals("ON"))
+            {
+                seatBelt.setImageResource(R.drawable.seatbelt);
+            }
+            else
+                seatBelt.setImageDrawable(null);
+        }
+
+        if (itemName == "AirBag")
+        {
+            if (status.equals("ON"))
+            {
+                airBag.setImageResource(R.drawable.airbag);
+            }
+            else
+                airBag.setImageDrawable(null);
+        }
+
+        if (itemName == "DoorOpen")
+        {
+            if (status.equals("ON"))
+            {
+                doorOpen.setImageResource(R.drawable.dooropen);
+            }
+            else
+                doorOpen.setImageDrawable(null);
+        }
+
+        if (itemName == "ABS")
+        {
+            if (status.equals("ON"))
+            {
+                abs.setImageResource(R.drawable.abs);
+            }
+            else
+                abs.setImageDrawable(null);
+        }
+
+        if (itemName == "Malfunction")
+        {
+            if (status.equals("ON"))
+            {
+                malfunction.setImageResource(R.drawable.engine);
+            }
+            else
+                malfunction.setImageDrawable(null);
+        }
     }
 
     @Override
@@ -282,21 +410,43 @@ public class MainActivity extends AppCompatActivity {
                             case "ambient_temp":
                                 temp.setText(SensorValue + "°c");
                                 break;
-//                            case "signal_Left":
-//                                LeftIndicator.setText(SensorValue);
-//                                break;
-//                            case "signal_Right":
-//                                RightIndicator.setText(SensorValue);
-//                                break;
-//                            case "signal_LowBeam":
-//                                LowBeam.setText(SensorValue);
-//                                break;
-//                            case "signal_HighBeam":
-//                                HighBeam.setText(SensorValue);
-//                                break;
-//                            case "signal_Hazard":
-//                                Hazards.setText(SensorValue);
-//                                break;
+                            case "signal_Left":
+                                leftFlag = SensorValue;
+                                break;
+                            case "signal_Right":
+                                rightFlag = SensorValue;
+                                break;
+                            case "signal_LowBeam":
+                                lightState(SensorValue, "LowBeam");
+                                Toast.makeText(getApplicationContext(), "Low beam: " + SensorValue, Toast.LENGTH_LONG).show();
+                                break;
+                            case "signal_HighBeam":
+                                lightState(SensorValue, "HighBeam");
+                                Toast.makeText(getApplicationContext(), "High beam: " + SensorValue, Toast.LENGTH_LONG).show();
+                                break;
+                            case "signal_Hazard":
+                                leftFlag = SensorValue;
+                                rightFlag = SensorValue;
+                                break;
+                            case "warning_Handbrake":
+                                lightState(SensorValue, "HandBrake");
+                                break;
+                            case "warning_Seatbelt":
+                                lightState(SensorValue, "SeatBelt");
+                                break;
+                            case "warning_Airbag":
+                                lightState(SensorValue, "AirBag");
+                                Toast.makeText(getApplicationContext(), "Airbag: " + SensorValue, Toast.LENGTH_LONG).show();
+                                break;
+                            case "warning_Door":
+                                lightState(SensorValue, "DoorOpen");
+                                break;
+                            case "warning_ABS":
+                                lightState(SensorValue, "ABS");
+                                break;
+                            case "warning_Engine":
+                                lightState(SensorValue, "Malfunction");
+                                break;
                         }
 
                     } catch (JSONException e) {

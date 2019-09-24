@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/handbrake"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -20,8 +20,7 @@
         app:layout_constraintHorizontal_bias="0.107"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/brakesystemwarning" />
+        app:layout_constraintVertical_bias="0.466" />
 
     <View
         android:id="@+id/view2"
@@ -130,8 +129,7 @@
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/turnleft" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -146,8 +144,7 @@
         app:layout_constraintHorizontal_bias="0.669"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/turnright" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/ambTemp"
@@ -182,7 +179,7 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/malfunction"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -194,11 +191,10 @@
         app:layout_constraintHorizontal_bias="0.219"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/engine" />
+        app:layout_constraintVertical_bias="0.466" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/abs"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -210,11 +206,10 @@
         app:layout_constraintHorizontal_bias="0.334"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/abs" />
+        app:layout_constraintVertical_bias="0.466" />
 
     <ImageView
-        android:id="@+id/imageView11"
+        android:id="@+id/lowBeam"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -226,11 +221,10 @@
         app:layout_constraintHorizontal_bias="0.906"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/lowbeams" />
+        app:layout_constraintVertical_bias="0.466" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/doorOpen"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -242,11 +236,10 @@
         app:layout_constraintHorizontal_bias="0.447"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/dooropen" />
+        app:layout_constraintVertical_bias="0.466" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/airBag"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -258,11 +251,10 @@
         app:layout_constraintHorizontal_bias="0.56"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/airbag" />
+        app:layout_constraintVertical_bias="0.466" />
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/seatBelt"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -274,11 +266,10 @@
         app:layout_constraintHorizontal_bias="0.676"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/seatbelt" />
+        app:layout_constraintVertical_bias="0.466" />
 
     <ImageView
-        android:id="@+id/imageView9"
+        android:id="@+id/highBeam"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -290,8 +281,7 @@
         app:layout_constraintHorizontal_bias="0.789"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/highbeams" />
+        app:layout_constraintVertical_bias="0.466" />
 
     <ImageView
         android:id="@+id/imageView10"
@@ -307,4 +297,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/hazardsoff" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="400dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="118dp"
+        android:layout_marginBottom="354dp"
+        android:ems="10"
+        android:inputType="textNoSuggestions"
+        android:textColor="#B3B3B3"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
 </android.support.constraint.ConstraintLayout>
