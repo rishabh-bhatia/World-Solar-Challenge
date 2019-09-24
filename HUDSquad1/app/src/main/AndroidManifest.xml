@@ -14,17 +14,20 @@
          Simulator won't work on the app unless eiter this is enabled or some other alternative is found.-->
         <activity
             android:name=".AnalogActivity"
-            android:launchMode="singleInstance"></activity>
+            android:launchMode="singleInstance"
+            android:screenOrientation="landscape"></activity>
         <!--
         To make the activity open only one instance at a time, "launchMode has been added and set to
         single instance. DELETE WHEN CONNECTING SIMULATOR AS THIS MAY CAUSE ISSUES.
         -->
         <activity
             android:name=".BatteryActivity"
-            android:launchMode="singleInstance"></activity>
+            android:launchMode="singleInstance"
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

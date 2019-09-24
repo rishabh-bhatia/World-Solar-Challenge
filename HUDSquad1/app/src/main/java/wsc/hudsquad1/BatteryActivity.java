@@ -1,6 +1,7 @@
 package wsc.hudsquad1;
 
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -93,10 +94,23 @@ public class BatteryActivity extends AppCompatActivity {
         });*/
 
 
-        Date curTime = Calendar.getInstance().getTime();//Accessing system time and saving it in curTime
-        time.setText(curTime.toString());//converting  the system time to a string and displaying it in "time" object TextView
+//        Date curTime = Calendar.getInstance().getTime();//Accessing system time and saving it in curTime
+//        time.setText(curTime.toString());//converting  the system time to a string and displaying it in "time" object TextView
 
         Timer timer = new Timer();//Timer initialization
+
+        //Updating the time
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Calendar c = Calendar.getInstance();
+                //System.out.println("Current time => "+c.getTime());
+
+                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                String formattedDate = df.format(c.getTime());
+                time.setText(formattedDate);//.toString());
+            }
+        }, 0, 100);
 
         //Speed timer
         timer.scheduleAtFixedRate(new TimerTask() {

@@ -1,6 +1,7 @@
 package wsc.hudsquad1;
 
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -43,10 +44,23 @@ public class AnalogActivity extends AppCompatActivity {
         right = findViewById(R.id.imageView2);
         hazard = findViewById(R.id.imageView10);
 
-        Date curTime = Calendar.getInstance().getTime();
-        time.setText(curTime.toString());
+//        Date curTime = Calendar.getInstance().getTime();
+//        time.setText(curTime.toString());
 
         Timer timer = new Timer();//Timer initialization
+
+        //Updating the time
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Calendar c = Calendar.getInstance();
+                //System.out.println("Current time => "+c.getTime());
+
+                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                String formattedDate = df.format(c.getTime());
+                time.setText(formattedDate);//.toString());
+            }
+        }, 0, 100);
 
         //Speed timer
         timer.scheduleAtFixedRate(new TimerTask() {

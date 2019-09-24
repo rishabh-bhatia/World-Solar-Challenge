@@ -7,6 +7,7 @@ package wsc.hudsquad1;
  * */
 
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -112,11 +113,27 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });*/
-
-        Date curTime = Calendar.getInstance().getTime();
-        time.setText(curTime.toString());
-
+        //Initializing timer
         Timer timer = new Timer();//Timer initialization
+
+
+
+//        Date curTime = Calendar.getInstance().getTime();
+
+        //Updating the time
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Calendar c = Calendar.getInstance();
+                //System.out.println("Current time => "+c.getTime());
+
+                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                String formattedDate = df.format(c.getTime());
+                time.setText(formattedDate);//.toString());
+            }
+        }, 0, 100);
+
+
 //
 //        //Speed timer
 //        timer.scheduleAtFixedRate(new TimerTask() {
@@ -193,34 +210,34 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-//
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        switch (event.getAction())
-//        {
-//            case MotionEvent.ACTION_DOWN://When the screen is touched
-//                x1 = event.getX();
-//                y1 = event.getY();
-//                break;
-//            case MotionEvent.ACTION_UP://When screen is untouched
-//                x2 = event.getX();
-//                y2 = event.getY();
-//                if (x1>x2)//when swiped right
-//                {
-//                    Intent i = new Intent(MainActivity.this, BatteryActivity.class);
-//                    startActivity(i);
-//                    //finish();//Closing current activity
-//                }
-//
-//                else if (x1<x2)
-//                {
-//                    Intent i = new Intent(MainActivity.this, AnalogActivity.class);
-//                    startActivity(i);
-//                }
-//                break;
-//        }
-//        return false;
-//    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction())
+        {
+            case MotionEvent.ACTION_DOWN://When the screen is touched
+                x1 = event.getX();
+                y1 = event.getY();
+                break;
+            case MotionEvent.ACTION_UP://When screen is untouched
+                x2 = event.getX();
+                y2 = event.getY();
+                if (x1>x2)//when swiped right
+                {
+                    Intent i = new Intent(MainActivity.this, BatteryActivity.class);
+                    startActivity(i);
+                    //finish();//Closing current activity
+                }
+
+                else if (x1<x2)
+                {
+                    Intent i = new Intent(MainActivity.this, AnalogActivity.class);
+                    startActivity(i);
+                }
+                break;
+        }
+        return false;
+    }
 
 
     //Reads the JSON object that is being sent from the server and changes the TextView value.
