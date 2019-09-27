@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,10 +39,11 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
 
     //SeekBar speedSet;//Seekbar object
-    public TextView speed, time, distance, temp;//Textview objects
+    public TextView speed, time, distance, temp, batterytv;//Textview objects
     int touchCount = 0;
-    EditText link;
+    EditText link;//Under cover Url input edit text
     //BigDecimal dist = new BigDecimal(0.1);
+    ProgressBar battery;
     double dist = 0;//Distance travelled
     ImageView left, right, hazard, lowBeam, highBeam, handBrake, seatBelt, airBag, doorOpen, abs, malfunction;//Imageview objects
     public String leftFlag = "OFF", rightFlag = "OFF";//Flags for indicators
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     int speedDelay = 0;//Timer delay. Can be removed after simulator is connected
     int speedPeriod = 500;//Timer period. Can be removed after simulator is connected
     int flag = 0;//Flag for speed timer
+    float bat1 = 0, bat2 = 35, bat3 = 45, bat4 = 0, avgBat;//Battery percentage from individual cell
     float x1, x2, y1, y2;//Initialising coordinates of Ontouchevent
     static boolean active = false;//Setting a boolean to check if an activity is active
 
@@ -106,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
         abs = findViewById(R.id.abs);//abs icon
         malfunction = findViewById(R.id.malfunction);//Malfunction for battery or motor
         link = findViewById(R.id.editText);
+        battery = findViewById((R.id.batteryNo));
+        batterytv = findViewById((R.id.battv));
 
         speed.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -130,10 +135,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
-
-
 
         //Initializing timer
         Timer timer = new Timer();//Timer initialization
@@ -167,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                 Calendar c = Calendar.getInstance();
                 //System.out.println("Current time => "+c.getTime());
 
-                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                SimpleDateFormat df = new SimpleDateFormat("HH:mm");
                 String formattedDate = df.format(c.getTime());
                 time.setText(formattedDate);//.toString());
 
@@ -255,6 +256,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private  void avgBattery(float batt1, float batt2, float batt3, float batt4)
+    {
+        avgBat = (batt1 + batt2 + batt3 + batt4)/4;
+        battery.setProgress((int) avgBat);//setting battery to sensor's avg battery value using formula
+        batterytv.setText(((int) avgBat) + "%");
+    }
+
     //Setting the status of HUD Icons using simulator data
     private void lightState(String status, String itemName)
     {
@@ -265,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
                 lowBeam.setImageResource(R.drawable.lowbeams);
             }
             else
-                lowBeam.setImageDrawable(null);
+                lowBeam.setImageResource(R.drawable.lowbeamsoff);
         }
 
         if (itemName == "HighBeam")
@@ -275,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
                 highBeam.setImageResource(R.drawable.highbeams);
             }
             else
-                highBeam.setImageDrawable(null);
+                highBeam.setImageResource(R.drawable.highbeamsoff);
         }
 
         if (itemName == "HandBrake")
@@ -285,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
                 handBrake.setImageResource(R.drawable.brakesystemwarning);
             }
             else
-                handBrake.setImageDrawable(null);
+                handBrake.setImageResource(R.drawable.brakesystemwarningoff);
         }
 
         if (itemName == "SeatBelt")
@@ -295,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
                 seatBelt.setImageResource(R.drawable.seatbelt);
             }
             else
-                seatBelt.setImageDrawable(null);
+                seatBelt.setImageResource(R.drawable.seatbeltoff);
         }
 
         if (itemName == "AirBag")
@@ -305,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
                 airBag.setImageResource(R.drawable.airbag);
             }
             else
-                airBag.setImageDrawable(null);
+                airBag.setImageResource(R.drawable.airbagoff);
         }
 
         if (itemName == "DoorOpen")
@@ -315,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
                 doorOpen.setImageResource(R.drawable.dooropen);
             }
             else
-                doorOpen.setImageDrawable(null);
+                doorOpen.setImageResource(R.drawable.dooropenoff);
         }
 
         if (itemName == "ABS")
@@ -325,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
                 abs.setImageResource(R.drawable.abs);
             }
             else
-                abs.setImageDrawable(null);
+                abs.setImageResource(R.drawable.absoff);
         }
 
         if (itemName == "Malfunction")
@@ -335,7 +343,17 @@ public class MainActivity extends AppCompatActivity {
                 malfunction.setImageResource(R.drawable.engine);
             }
             else
-                malfunction.setImageDrawable(null);
+                malfunction.setImageResource(R.drawable.engineoff);
+        }
+
+        if (itemName == "Malfunction")
+        {
+            if (status.equals("ON"))
+            {
+                malfunction.setImageResource(R.drawable.engine);
+            }
+            else
+                malfunction.setImageResource(R.drawable.engineoff);
         }
     }
 
@@ -357,9 +375,9 @@ public class MainActivity extends AppCompatActivity {
                     //finish();//Closing current activity
                 }
 
-                else if (x1<x2)
+                else if (x1<x2)//left swipe
                 {
-                    Intent i = new Intent(MainActivity.this, AnalogActivity.class);
+                    Intent i = new Intent(MainActivity.this, BatteryActivity.class);
                     startActivity(i);
                 }
                 break;
@@ -418,11 +436,11 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case "signal_LowBeam":
                                 lightState(SensorValue, "LowBeam");
-                                Toast.makeText(getApplicationContext(), "Low beam: " + SensorValue, Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getApplicationContext(), "Low beam: " + SensorValue, Toast.LENGTH_LONG).show();
                                 break;
                             case "signal_HighBeam":
                                 lightState(SensorValue, "HighBeam");
-                                Toast.makeText(getApplicationContext(), "High beam: " + SensorValue, Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getApplicationContext(), "High beam: " + SensorValue, Toast.LENGTH_LONG).show();
                                 break;
                             case "signal_Hazard":
                                 leftFlag = SensorValue;
@@ -436,7 +454,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case "warning_Airbag":
                                 lightState(SensorValue, "AirBag");
-                                Toast.makeText(getApplicationContext(), "Airbag: " + SensorValue, Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getApplicationContext(), "Airbag: " + SensorValue, Toast.LENGTH_LONG).show();
                                 break;
                             case "warning_Door":
                                 lightState(SensorValue, "DoorOpen");
@@ -446,6 +464,22 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case "warning_Engine":
                                 lightState(SensorValue, "Malfunction");
+                                break;
+                            case "batt_cellA":
+                                bat1 = Float.parseFloat(SensorValue);
+                                avgBattery(bat1, bat2, bat3, bat4);
+                                break;
+                            case "batt_cellB":
+                                bat2 = Float.parseFloat(SensorValue);
+                                avgBattery(bat1, bat2, bat3, bat4);
+                                break;
+                            case "batt_cellC":
+                                bat3 = Float.parseFloat(SensorValue);
+                                avgBattery(bat1, bat2, bat3, bat4);
+                                break;
+                            case "batt_cellD":
+                                bat4 = Float.parseFloat(SensorValue);
+                                avgBattery(bat1, bat2, bat3, bat4);
                                 break;
                         }
 

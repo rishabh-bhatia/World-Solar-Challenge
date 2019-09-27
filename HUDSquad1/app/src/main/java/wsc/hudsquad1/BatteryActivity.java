@@ -409,7 +409,7 @@ public class BatteryActivity extends AppCompatActivity {
                 lowBeam.setImageResource(R.drawable.lowbeams);
             }
             else
-                lowBeam.setImageDrawable(null);
+                lowBeam.setImageResource(R.drawable.lowbeamsoff);
         }
 
         if (itemName == "HighBeam")
@@ -419,7 +419,7 @@ public class BatteryActivity extends AppCompatActivity {
                 highBeam.setImageResource(R.drawable.highbeams);
             }
             else
-                highBeam.setImageDrawable(null);
+                highBeam.setImageResource(R.drawable.highbeamsoff);
         }
 
         if (itemName == "HandBrake")
@@ -429,7 +429,7 @@ public class BatteryActivity extends AppCompatActivity {
                 handBrake.setImageResource(R.drawable.brakesystemwarning);
             }
             else
-                handBrake.setImageDrawable(null);
+                handBrake.setImageResource(R.drawable.brakesystemwarningoff);
         }
 
         if (itemName == "SeatBelt")
@@ -439,7 +439,7 @@ public class BatteryActivity extends AppCompatActivity {
                 seatBelt.setImageResource(R.drawable.seatbelt);
             }
             else
-                seatBelt.setImageDrawable(null);
+                seatBelt.setImageResource(R.drawable.seatbeltoff);
         }
 
         if (itemName == "AirBag")
@@ -449,7 +449,7 @@ public class BatteryActivity extends AppCompatActivity {
                 airBag.setImageResource(R.drawable.airbag);
             }
             else
-                airBag.setImageDrawable(null);
+                airBag.setImageResource(R.drawable.airbagoff);
         }
 
         if (itemName == "DoorOpen")
@@ -459,7 +459,7 @@ public class BatteryActivity extends AppCompatActivity {
                 doorOpen.setImageResource(R.drawable.dooropen);
             }
             else
-                doorOpen.setImageDrawable(null);
+                doorOpen.setImageResource(R.drawable.dooropenoff);
         }
 
         if (itemName == "ABS")
@@ -469,7 +469,7 @@ public class BatteryActivity extends AppCompatActivity {
                 abs.setImageResource(R.drawable.abs);
             }
             else
-                abs.setImageDrawable(null);
+                abs.setImageResource(R.drawable.absoff);
         }
 
         if (itemName == "Malfunction")
@@ -479,10 +479,8 @@ public class BatteryActivity extends AppCompatActivity {
                 malfunction.setImageResource(R.drawable.engine);
             }
             else
-                malfunction.setImageDrawable(null);
+                malfunction.setImageResource(R.drawable.engineoff);
         }
-
-
     }
 
     //Setting up a touch event listener which will detect right swipe and left swipe and then open a new activity.
