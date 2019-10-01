@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     float bat1 = 0, bat2 = 35, bat3 = 45, bat4 = 0, avgBat;//Battery percentage from individual cell
     float x1, x2, y1, y2;//Initialising coordinates of Ontouchevent
     static boolean active = false;//Setting a boolean to check if an activity is active
+    String dummy = "";//Empty string in case no url has been entered
 
     private Socket socket;
     {
@@ -110,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
                         throw new RuntimeException(e);
                     }
                     //Calls the socket on function which looks for the update event being emitted from the server and receives the messages
-                    socket.on("update", onNewMessage); //This occurs each time a message is sent from the server. Calls onNewMessage() method.
-                    socket.connect();   //Connects to the server
+                        socket.on("update", onNewMessage); //This occurs each time a message is sent from the server. Calls onNewMessage() method.
+                        socket.connect();   //Connects to the server
                 }
                 else
                     link.setVisibility(View.VISIBLE);
@@ -121,9 +122,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Initializing timer
         Timer timer = new Timer();//Timer initialization
-
-
-//        Date curTime = Calendar.getInstance().getTime();
 
         //Updating the time
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -144,10 +142,6 @@ public class MainActivity extends AppCompatActivity {
        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                /*dist = dist.add(BigDecimal.valueOf(0.1));
-                distance.setText((String.valueOf(dist)));*/
-                /*Odometric calculation by using Distance = Speed * time
-                where time  = 1hr = [1/(60*60)]secs*/
                 ss = s;
                 dist = dist + ss/3600;
                 distance.setText(String.format("%.1f", dist) + "km");//Show distance upto 1 decimal place in km
@@ -355,21 +349,6 @@ public class MainActivity extends AppCompatActivity {
                                 speed.setText(SensorValue);
                                 s = Integer.parseInt(SensorValue);
                                 break;
-//                            case "motor_temp":
-//                                distance.setText(SensorValue + "°c");
-//                                break;
-//                            case "batt_charge":
-//                                BatteryCharge.setText(SensorValue + "%");
-//                                break;
-//                            case "batt_usage":
-//                                BatteryUsage.setText(SensorValue + "w");
-//                                break;
-//                            case "batt_temp":
-//                                BatteryTemp.setText(SensorValue + "°c");
-//                                break;
-//                            case "batt_input":
-//                                BatteryInput.setText(SensorValue + "w");
-//                                break;
                             case "ambient_temp":
                                 temp.setText(SensorValue + "°c");
                                 break;

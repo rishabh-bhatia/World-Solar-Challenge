@@ -121,7 +121,6 @@ public class AnalogActivity extends AppCompatActivity {
                     link.setVisibility(view.GONE);
                     url = link.getText().toString();
                     Toast.makeText(getApplicationContext(), url, Toast.LENGTH_LONG).show();
-                    if(url != null)
                     try {
                         //localhost, 127.0.0.1 OR [::1] - will not work here. Use your local ip address
                         socket = IO.socket("http://" + url); //http://YourLocalIPAddress:8000
@@ -371,21 +370,6 @@ public class AnalogActivity extends AppCompatActivity {
                                 currentRotateDegree =(float)(s*1.365);
                                 RotateImage(currentRotateDegree);
                                 break;
-//                            case "motor_temp":
-//                                distance.setText(SensorValue + "°c");
-//                                break;
-//                            case "batt_charge":
-//                                BatteryCharge.setText(SensorValue + "%");
-//                                break;
-//                            case "batt_usage":
-//                                BatteryUsage.setText(SensorValue + "w");
-//                                break;
-//                            case "batt_temp":
-//                                BatteryTemp.setText(SensorValue + "°c");
-//                                break;
-//                            case "batt_input":
-//                                BatteryInput.setText(SensorValue + "w");
-//                                break;
                             case "ambient_temp":
                                 temp.setText(SensorValue + "°c");
                                 break;
