@@ -8,7 +8,6 @@ package wsc.hudsquad1;
 
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -17,7 +16,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +26,8 @@ import com.github.nkzawa.socketio.client.Socket;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,7 +35,7 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
 
     //SeekBar speedSet;//Seekbar object
-    public TextView speed, time, distance, temp, batterytv;//Textview objects
+    public TextView speed, time, distance, temp, batterytv, rangeLeft;//Textview objects
     int touchCount = 0;
     EditText link;//Under cover Url input edit text
     //BigDecimal dist = new BigDecimal(0.1);
@@ -58,21 +54,6 @@ public class MainActivity extends AppCompatActivity {
     float bat1 = 0, bat2 = 35, bat3 = 45, bat4 = 0, avgBat;//Battery percentage from individual cell
     float x1, x2, y1, y2;//Initialising coordinates of Ontouchevent
     static boolean active = false;//Setting a boolean to check if an activity is active
-
-
-
-   /* @Override
-    public void onStart() {
-        super.onStart();
-        active = true;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        active = false;
-    }*/
-
 
     private Socket socket;
     {
@@ -99,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         distance = findViewById(R.id.textView4);
         left = findViewById(R.id.imageView);
         right = findViewById(R.id.imageView2);
-        hazard = findViewById(R.id.imageView10);
+        hazard = findViewById(R.id.hazardSwitch);
         lowBeam = findViewById(R.id.lowBeam);//Low beam icon
         highBeam = findViewById(R.id.highBeam);//High beam icon
         handBrake = findViewById(R.id.handbrake);//Handbrake icon
@@ -111,8 +92,10 @@ public class MainActivity extends AppCompatActivity {
         link = findViewById(R.id.editText);
         battery = findViewById((R.id.batteryNo));
         batterytv = findViewById((R.id.battv));
+        rangeLeft = findViewById(R.id.range);
 
-        speed.setOnLongClickListener(new View.OnLongClickListener() {
+        //Setting long press on temperature text to enable/disable url input
+        temp.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 if(link.getVisibility() == View.VISIBLE)
@@ -138,25 +121,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Initializing timer
         Timer timer = new Timer();//Timer initialization
-        /*speedSet.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                speed.setText(String.valueOf(progress));
-                s = progress;
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });*/
 
 
 //        Date curTime = Calendar.getInstance().getTime();
@@ -176,32 +140,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 0, 100);
 
-
-//
-//        //Speed timer
-//        timer.scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                if(flag == 0)
-//                {
-//                    s = s + 5;
-//                    if (s == 180)
-//                        flag = 1;
-//                    speed.setText(String.valueOf(s));
-//                }
-//
-//                else if (flag == 1)
-//                {
-//
-//                    s = s - 5;
-//                    if (s == 0)
-//                        flag = 0;
-//                    speed.setText(String.valueOf(s));
-//
-//                }
-//            }
-//        } , speedDelay, speedPeriod);
-//
         //Odometer timer
        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -224,28 +162,28 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
                         if (leftFlag.equals("ON")) {
-                            if (left.getDrawable() == null)
+                            if ((left.getDrawable().getConstantState()).equals(getResources().getDrawable(R.drawable.turnleftoff).getConstantState()))
                                 left.setImageResource(R.drawable.turnleft);
 
                             else
-                                left.setImageDrawable(null);
+                                left.setImageResource(R.drawable.turnleftoff);
                         }
 
                         if (leftFlag.equals("OFF")) {
-                                left.setImageDrawable(null);
+                                left.setImageResource(R.drawable.turnleftoff);
                         }
 
 
                         if(rightFlag.equals("ON")) {
-                            if (right.getDrawable() == null)
+                            if ((right.getDrawable().getConstantState()).equals(getResources().getDrawable(R.drawable.turnrightoff).getConstantState()))
                                 right.setImageResource(R.drawable.turnright);
 
                             else
-                                right.setImageDrawable(null);
+                                right.setImageResource(R.drawable.turnrightoff);
                         }
 
                         if (rightFlag.equals("OFF")) {
-                                right.setImageDrawable(null);
+                                right.setImageResource(R.drawable.turnrightoff);
                         }
 
                     }
@@ -256,11 +194,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /*Calculating the Average of total battery left and then also setting the range
+    * by assuming that on 100%  avg. battery left the car can travel 400kms*/
+
     private  void avgBattery(float batt1, float batt2, float batt3, float batt4)
     {
         avgBat = (batt1 + batt2 + batt3 + batt4)/4;
         battery.setProgress((int) avgBat);//setting battery to sensor's avg battery value using formula
         batterytv.setText(((int) avgBat) + "%");
+        rangeLeft.setText("Range: " + String.format("%.1f", (400 * (avgBat/100))) + "km");
+
     }
 
     //Setting the status of HUD Icons using simulator data
@@ -368,17 +311,19 @@ public class MainActivity extends AppCompatActivity {
             case MotionEvent.ACTION_UP://When screen is untouched
                 x2 = event.getX();
                 y2 = event.getY();
-                if (x1>x2)//when swiped right
+                if (x1>x2)//when swiped left
                 {
                     Intent i = new Intent(MainActivity.this, BatteryActivity.class);
                     startActivity(i);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     //finish();//Closing current activity
                 }
 
-                else if (x1<x2)//left swipe
+                else if (x1<x2)//right swipe
                 {
-                    Intent i = new Intent(MainActivity.this, BatteryActivity.class);
+                    Intent i = new Intent(MainActivity.this, AnalogActivity.class);
                     startActivity(i);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }
                 break;
         }

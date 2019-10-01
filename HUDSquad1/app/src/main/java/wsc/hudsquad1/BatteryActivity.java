@@ -22,14 +22,13 @@ import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class BatteryActivity extends AppCompatActivity {
 
     //SeekBar speedSet;//Seekbar object
-    TextView speed, time, distance, battery1, battery2, battery3, battery4, temp, temp2, avgSpeed, range, ambPressure, motorTemp, batteryTemp;//Textview objects
+    TextView speed, time, distance, battery1, battery2, battery3, battery4, temp, temp2, avgSpeed, range, ambPressure, motorTemp, batteryTemp, rangeLeft;//Textview objects
     ProgressBar batteryProg1, batteryProg2, batteryProg3, batteryProg4;//Progressbar objects
     //BigDecimal dist = new BigDecimal(0.1);
     EditText link;//Hidden edittext
@@ -53,6 +52,7 @@ public class BatteryActivity extends AppCompatActivity {
     int battery3percentage;//Initial Battery percentage of battery number 3
     int battery4percentage;//Initial battery percentage of battery number 4
     float x1, x2, y1, y2;//Initialising coordinates of Ontouchevent
+    float avgBat, bat1, bat2, bat3, bat4;//Battery variable
 
 
     private Socket socket;
@@ -79,7 +79,7 @@ public class BatteryActivity extends AppCompatActivity {
         distance = findViewById(R.id.textView4);
         left = findViewById(R.id.imageView);
         right = findViewById(R.id.imageView2);
-        hazard = findViewById(R.id.imageView10);
+        hazard = findViewById(R.id.hazardSwitch);
         battery1 = findViewById(R.id.bat1tv);
         battery2 = findViewById(R.id.bat2tv);
         battery3 = findViewById(R.id.bat3tv);
@@ -103,13 +103,14 @@ public class BatteryActivity extends AppCompatActivity {
         motorTemp = findViewById(R.id.motorTemp);
         batteryTemp = findViewById(R.id.batteryTemp);
         link = findViewById(R.id.editText2);
+        rangeLeft = findViewById(R.id.range);
 
         battery1percentage = batteryProg1.getProgress();
         battery2percentage = batteryProg2.getProgress();
         battery3percentage = batteryProg3.getProgress();
         battery4percentage = batteryProg4.getProgress();
 
-        speed.setOnLongClickListener(new View.OnLongClickListener() {
+        temp.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 if(link.getVisibility() == View.VISIBLE)
@@ -171,7 +172,7 @@ public class BatteryActivity extends AppCompatActivity {
                 Calendar c = Calendar.getInstance();
                 //System.out.println("Current time => "+c.getTime());
 
-                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                SimpleDateFormat df = new SimpleDateFormat("HH:mm");
                 String formattedDate = df.format(c.getTime());
                 time.setText(formattedDate);//.toString());
             }
@@ -202,19 +203,19 @@ public class BatteryActivity extends AppCompatActivity {
 //        } , delay, period);
 
         //Odometer timer
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                /*dist = dist.add(BigDecimal.valueOf(0.1));
-                distance.setText((String.valueOf(dist)));*/
-                /*Odometric calculation by using Distance = Speed * time
-                where time  = 1hr = [1/(60*60)]secs*/
-                ss = s;
-                dist = dist + ss/3600;
-                distance.setText(String.format("%.1f", dist) + "km");//Show distance upto 1 decimal place in km
-
-            }
-        } , delay, period);
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                /*dist = dist.add(BigDecimal.valueOf(0.1));
+//                distance.setText((String.valueOf(dist)));*/
+//                /*Odometric calculation by using Distance = Speed * time
+//                where time  = 1hr = [1/(60*60)]secs*/
+//                ss = s;
+//                dist = dist + ss/3600;
+//                distance.setText(String.format("%.1f", dist) + "km");//Show distance upto 1 decimal place in km
+//
+//            }
+//        } , delay, period);
 
 
 
@@ -367,28 +368,28 @@ public class BatteryActivity extends AppCompatActivity {
                 BatteryActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
                         if (leftFlag.equals("ON")) {
-                            if (left.getDrawable() == null)
+                            if ((left.getDrawable().getConstantState()).equals(getResources().getDrawable(R.drawable.turnleftoff).getConstantState()))
                                 left.setImageResource(R.drawable.turnleft);
 
                             else
-                                left.setImageDrawable(null);
+                                left.setImageResource(R.drawable.turnleftoff);
                         }
 
                         if (leftFlag.equals("OFF")) {
-                            left.setImageDrawable(null);
+                            left.setImageResource(R.drawable.turnleftoff);
                         }
 
 
                         if(rightFlag.equals("ON")) {
-                            if (right.getDrawable() == null)
+                            if ((right.getDrawable().getConstantState()).equals(getResources().getDrawable(R.drawable.turnrightoff).getConstantState()))
                                 right.setImageResource(R.drawable.turnright);
 
                             else
-                                right.setImageDrawable(null);
+                                right.setImageResource(R.drawable.turnrightoff);
                         }
 
                         if (rightFlag.equals("OFF")) {
-                            right.setImageDrawable(null);
+                            right.setImageResource(R.drawable.turnrightoff);
                         }
 
                     }
@@ -396,6 +397,22 @@ public class BatteryActivity extends AppCompatActivity {
 
             }
         } , delay, period);
+
+    }
+
+    private  void avgBattery(float batt1, float batt2, float batt3, float batt4)
+    {
+        avgBat = (batt1 + batt2 + batt3 + batt4)/4;
+        batteryProg1.setProgress((int) batt1);//setting battery to sensor's battery value using formula
+        batteryProg2.setProgress((int) batt2);//setting battery to sensor's battery value using formula
+        batteryProg3.setProgress((int) batt3);//setting battery to sensor's battery value using formula
+        batteryProg4.setProgress((int) batt4);//setting battery to sensor's battery value using formula
+
+        battery1.setText(((int) batt1) + "%");
+        battery2.setText(((int) batt2) + "%");
+        battery3.setText(((int) batt3) + "%");
+        battery4.setText(((int) batt4) + "%");
+        rangeLeft.setText("Range: " + String.format("%.1f", (400 * (avgBat/100))) + "km");
 
     }
 
@@ -495,16 +512,18 @@ public class BatteryActivity extends AppCompatActivity {
             case MotionEvent.ACTION_UP://When screen is untouched
                 x2 = event.getX();
                 y2 = event.getY();
-                if (x1>x2)//when swiped right
+                if (x1>x2)//when swiped left
                 {
                     Intent i = new Intent(BatteryActivity.this, AnalogActivity.class);
                     startActivity(i);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     //finish();//Closing current activity
                 }
-                else if (x1<x2)
+                else if (x1<x2)//right swipe
                 {
                     Intent i = new Intent(BatteryActivity.this, MainActivity.class);
                     startActivity(i);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 }
                 break;
         }
@@ -531,33 +550,33 @@ public class BatteryActivity extends AppCompatActivity {
                         SensorValue = data.getString("value");
 
                         switch (Sensor) {
-                            case "speed":
-                                speed.setText(SensorValue);
-                                s = Integer.parseInt(SensorValue);
-                                break;
+//                            case "speed":
+//                                speed.setText(SensorValue);
+//                                s = Integer.parseInt(SensorValue);
+//                                break;
                             case "motor_temp":
                                 motorTemp.setText("Motor Temp: " + SensorValue + "°c");
                                 break;
-                            case "batt_charge":
-                                try{
-                                    int i = (int) Double.parseDouble(SensorValue);//Converting the string like 100.0 to integer to prevent errors
-                                    batteryProg1.setProgress(i);
-                                    batteryProg2.setProgress(i);
-                                    batteryProg3.setProgress(i);
-                                    batteryProg4.setProgress(i);
-                                    battery1percentage = batteryProg1.getProgress();
-                                    battery2percentage = batteryProg2.getProgress();
-                                    battery3percentage = batteryProg3.getProgress();
-                                    battery4percentage = batteryProg4.getProgress();
-                                    battery1.setText(battery1percentage + "%");
-                                    battery2.setText(battery2percentage + "%");
-                                    battery3.setText(battery3percentage + "%");
-                                    battery4.setText(battery4percentage + "%");
-                                } catch(NumberFormatException ex) {
-                                    Toast.makeText(getApplicationContext(), "Parsing error in battery progress!", Toast.LENGTH_LONG).show();
-                                }
-
-                                break;
+//                            case "batt_charge":
+//                                try{
+//                                    int i = (int) Double.parseDouble(SensorValue);//Converting the string like 100.0 to integer to prevent errors
+//                                    batteryProg1.setProgress(i);
+//                                    batteryProg2.setProgress(i);
+//                                    batteryProg3.setProgress(i);
+//                                    batteryProg4.setProgress(i);
+//                                    battery1percentage = batteryProg1.getProgress();
+//                                    battery2percentage = batteryProg2.getProgress();
+//                                    battery3percentage = batteryProg3.getProgress();
+//                                    battery4percentage = batteryProg4.getProgress();
+//                                    battery1.setText(battery1percentage + "%");
+//                                    battery2.setText(battery2percentage + "%");
+//                                    battery3.setText(battery3percentage + "%");
+//                                    battery4.setText(battery4percentage + "%");
+//                                } catch(NumberFormatException ex) {
+//                                    Toast.makeText(getApplicationContext(), "Parsing error in battery progress!", Toast.LENGTH_LONG).show();
+//                                }
+//
+//                                break;
 //                            case "batt_usage":
 //                                BatteryUsage.setText(SensorValue + "w");
 //                                break;
@@ -571,6 +590,9 @@ public class BatteryActivity extends AppCompatActivity {
                                 temp.setText(SensorValue + "°c");
                                 temp2.setText("Ambient Temp: " + SensorValue + "°c");
                                 break;
+                            case "ambient_pressure":
+                                ambPressure.setText("Ambient Pressure: " + SensorValue + "kPa");
+                                break;
                             case "signal_Left":
                                 leftFlag = SensorValue;
                                 break;
@@ -579,11 +601,11 @@ public class BatteryActivity extends AppCompatActivity {
                                 break;
                             case "signal_LowBeam":
                                 lightState(SensorValue, "LowBeam");
-                                Toast.makeText(getApplicationContext(), "Low beam: " + SensorValue, Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getApplicationContext(), "Low beam: " + SensorValue, Toast.LENGTH_LONG).show();
                                 break;
                             case "signal_HighBeam":
                                 lightState(SensorValue, "HighBeam");
-                                Toast.makeText(getApplicationContext(), "High beam: " + SensorValue, Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getApplicationContext(), "High beam: " + SensorValue, Toast.LENGTH_LONG).show();
                                 break;
                             case "signal_Hazard":
                                 leftFlag = SensorValue;
@@ -607,6 +629,22 @@ public class BatteryActivity extends AppCompatActivity {
                                 break;
                             case "warning_Engine":
                                 lightState(SensorValue, "Malfunction");
+                                break;
+                            case "batt_cellA":
+                                bat1 = Float.parseFloat(SensorValue);
+                                avgBattery(bat1, bat2, bat3, bat4);
+                                break;
+                            case "batt_cellB":
+                                bat2 = Float.parseFloat(SensorValue);
+                                avgBattery(bat1, bat2, bat3, bat4);
+                                break;
+                            case "batt_cellC":
+                                bat3 = Float.parseFloat(SensorValue);
+                                avgBattery(bat1, bat2, bat3, bat4);
+                                break;
+                            case "batt_cellD":
+                                bat4 = Float.parseFloat(SensorValue);
+                                avgBattery(bat1, bat2, bat3, bat4);
                                 break;
                         }
 

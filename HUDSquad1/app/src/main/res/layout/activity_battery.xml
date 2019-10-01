@@ -8,46 +8,49 @@
     tools:context=".BatteryActivity">
 
     <TextView
-        android:id="@+id/motorTemp"
-        android:layout_width="300dp"
+        android:id="@+id/batteryTemp"
+        android:layout_width="500dp"
         android:layout_height="47dp"
-        android:layout_marginTop="312dp"
-        android:text="Motor temp: 70°c "
-        android:textAlignment="center"
+        android:text="-"
+        android:textAlignment="viewStart"
         android:textColor="#E8DFDF"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.174"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view3"
-        app:layout_constraintVertical_bias="0.088" />
+        app:layout_constraintVertical_bias="0.817" />
 
     <TextView
-        android:id="@+id/batteryTemp"
-        android:layout_width="300dp"
+        android:id="@+id/motorTemp"
+        android:layout_width="500dp"
         android:layout_height="47dp"
-        android:layout_marginTop="312dp"
-        android:text="Battery Temp: 58°"
-        android:textAlignment="center"
+        android:text="-"
+        android:textAlignment="viewStart"
         android:textColor="#E8DFDF"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.174"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view3"
-        app:layout_constraintVertical_bias="0.503" />
+        app:layout_constraintVertical_bias="0.677" />
 
     <TextView
         android:id="@+id/ambientTemp"
-        android:layout_width="300dp"
+        android:layout_width="500dp"
         android:layout_height="47dp"
-        android:layout_marginTop="312dp"
-        android:text="Ambient temp:  16°"
-        android:textAlignment="center"
+        android:text="-"
+        android:textAlignment="viewStart"
         android:textColor="#E8DFDF"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.174"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view3"
-        app:layout_constraintVertical_bias="0.874" />
+        app:layout_constraintVertical_bias="0.953" />
 
     <View
         android:id="@+id/view3"
@@ -76,7 +79,8 @@
         app:layout_constraintHorizontal_bias="0.107"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466" />
+        app:layout_constraintVertical_bias="0.466"
+        app:srcCompat="@drawable/brakesystemwarningoff" />
 
     <TextView
         android:id="@+id/textView2"
@@ -86,10 +90,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:ems="10"
         android:fontFamily="sans-serif"
+        android:gravity="center"
         android:inputType="none"
+        android:text="-"
         android:textColor="#FDEEE7E7"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -135,6 +141,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:text="-"
         android:textColor="#FDEEE7E7"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -171,7 +179,8 @@
         app:layout_constraintHorizontal_bias="0.219"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466" />
+        app:layout_constraintVertical_bias="0.466"
+        app:srcCompat="@drawable/engineoff" />
 
     <ImageView
         android:id="@+id/abs"
@@ -186,7 +195,8 @@
         app:layout_constraintHorizontal_bias="0.334"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466" />
+        app:layout_constraintVertical_bias="0.466"
+        app:srcCompat="@drawable/absoff" />
 
     <ImageView
         android:id="@+id/lowBeam"
@@ -201,7 +211,8 @@
         app:layout_constraintHorizontal_bias="0.906"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466" />
+        app:layout_constraintVertical_bias="0.466"
+        app:srcCompat="@drawable/lowbeamsoff" />
 
     <ImageView
         android:id="@+id/doorOpen"
@@ -216,7 +227,8 @@
         app:layout_constraintHorizontal_bias="0.447"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466" />
+        app:layout_constraintVertical_bias="0.466"
+        app:srcCompat="@drawable/dooropenoff" />
 
     <ImageView
         android:id="@+id/airBag"
@@ -231,7 +243,8 @@
         app:layout_constraintHorizontal_bias="0.56"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466" />
+        app:layout_constraintVertical_bias="0.466"
+        app:srcCompat="@drawable/airbagoff" />
 
     <ImageView
         android:id="@+id/seatBelt"
@@ -246,7 +259,8 @@
         app:layout_constraintHorizontal_bias="0.676"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466" />
+        app:layout_constraintVertical_bias="0.466"
+        app:srcCompat="@drawable/seatbeltoff" />
 
     <ImageView
         android:id="@+id/highBeam"
@@ -261,10 +275,11 @@
         app:layout_constraintHorizontal_bias="0.789"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.466" />
+        app:layout_constraintVertical_bias="0.466"
+        app:srcCompat="@drawable/highbeamsoff" />
 
     <ImageView
-        android:id="@+id/imageView10"
+        android:id="@+id/hazardSwitch"
         android:layout_width="150dp"
         android:layout_height="130dp"
         android:layout_marginStart="8dp"
@@ -317,7 +332,6 @@
         android:layout_width="74dp"
         android:layout_height="150dp"
         android:minHeight="50dp"
-        android:progress="50"
         android:progressTint="#6FF355"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -350,7 +364,6 @@
         android:layout_height="150dp"
         android:layout_marginStart="76dp"
         android:minHeight="50dp"
-        android:progress="25"
         android:progressTint="#6FF355"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -383,7 +396,6 @@
         android:layout_height="150dp"
         android:layout_marginStart="412dp"
         android:minHeight="50dp"
-        android:progress="78"
         android:progressTint="#6FF355"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -411,49 +423,49 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/avgSpeed"
-        android:layout_width="300dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="312dp"
-        android:text="Avg. Speed: 50 kph"
-        android:textAlignment="center"
-        android:textColor="#E8DFDF"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view3"
-        app:layout_constraintVertical_bias="0.088" />
-
-    <TextView
         android:id="@+id/range"
-        android:layout_width="300dp"
+        android:layout_width="500dp"
         android:layout_height="47dp"
-        android:layout_marginTop="376dp"
-        android:text="Range: 300 km"
-        android:textAlignment="center"
+        android:text="-"
+        android:textAlignment="viewStart"
         android:textColor="#E8DFDF"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.846"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view3"
-        app:layout_constraintVertical_bias="0.168" />
+        app:layout_constraintVertical_bias="0.817" />
 
     <TextView
         android:id="@+id/ambientPressure"
-        android:layout_width="300dp"
+        android:layout_width="500dp"
         android:layout_height="47dp"
-        android:layout_marginTop="444dp"
-        android:text="Ambient press: 1 atm"
-        android:textAlignment="center"
+        android:text="-"
+        android:textAlignment="viewStart"
         android:textColor="#E8DFDF"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.846"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view3"
-        app:layout_constraintVertical_bias="0.259" />
+        app:layout_constraintVertical_bias="0.953" />
+
+    <TextView
+        android:id="@+id/avgSpeed"
+        android:layout_width="500dp"
+        android:layout_height="47dp"
+        android:text="Avg. Speed: 50 km/h"
+        android:textAlignment="viewStart"
+        android:textColor="#E8DFDF"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.846"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.677" />
 
     <TextView
         android:id="@+id/textView10"
@@ -474,9 +486,10 @@
         android:layout_width="380dp"
         android:layout_height="50dp"
         android:ems="10"
+        android:gravity="center"
         android:inputType="textPersonName"
         android:textColor="#E8DFDF"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/view3"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="parent"
