@@ -1,6 +1,11 @@
 package wsc.hudsquad1;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,35 +30,39 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class BatteryActivity extends AppCompatActivity {
+public class AnalogActivity extends AppCompatActivity {
 
     //SeekBar speedSet;//Seekbar object
-    TextView speed, time, distance, battery1, battery2, battery3, battery4, temp, temp2, avgSpeed, range, ambPressure, motorTemp, batteryTemp, rangeLeft;//Textview objects
-    ProgressBar batteryProg1, batteryProg2, batteryProg3, batteryProg4;//Progressbar objects
+    public TextView speed, time, distance, temp, batterytv, rangeLeft;//Textview objects
+    int touchCount = 0;
+    EditText link;//Under cover Url input edit text
     //BigDecimal dist = new BigDecimal(0.1);
-    EditText link;//Hidden edittext
-    public String leftFlag = "OFF", rightFlag = "OFF";//Flags for indicators
-    String url = "0.0.0.0:5000";
+    ProgressBar battery;
     double dist = 0;//Distance travelled
     ImageView left, right, hazard, lowBeam, highBeam, handBrake, seatBelt, airBag, doorOpen, abs, malfunction;//Imageview objects
+    public String leftFlag = "OFF", rightFlag = "OFF";//Flags for indicators
+    String url = "0.0.0.0:5000";//url for simulator network
     int delay = 0;//Time taken by the timer before the first execution
     int period = 500;//Interval after which the timer repeats
-    int s = 0;//Value of realtime speed based on which odometric calculations are conducted
+    int s = 0;//Value of ProgressBar's realtime position based on which odometric calculations are conducted
     double ss;//double value of s for distance calculation
-    int batteryDelay = 0;//Time taken by timer before first execution
-    int batteryPeriod = 200;//Interval after which timer repeats for battery percentage
+    int speedDelay = 0;//Timer delay. Can be removed after simulator is connected
+    int speedPeriod = 500;//Timer period. Can be removed after simulator is connected
     int flag = 0;//Flag for speed timer
-    int battery1Flag = 0;//Flag for battery1 timer
-    int battery2Flag = 0;//Flag for battery2 timer
-    int battery3Flag = 0;//Flag for battery3 timer
-    int battery4Flag = 0;//Flag for battery4 timer
-    int battery1percentage;//Initial Battery percentage of battery number 1
-    int battery2percentage;//Initial Battery percentage of battery number 2
-    int battery3percentage;//Initial Battery percentage of battery number 3
-    int battery4percentage;//Initial battery percentage of battery number 4
+    float bat1 = 0, bat2 = 35, bat3 = 45, bat4 = 0, avgBat;//Battery percentage from individual cell
     float x1, x2, y1, y2;//Initialising coordinates of Ontouchevent
-    float avgBat, bat1, bat2, bat3, bat4;//Battery variable
+    static boolean active = false;//Setting a boolean to check if an activity is active
 
+    //Edited Bu Sachin
+
+    ImageView imgSpeedoMeter;
+    ImageView imgNeedle;
+    BitmapDrawable needleBitMapDrawable;
+    Bitmap needleBitMap;
+    int needleWidth;
+    int needleHeight;
+    Bitmap.Config needleConfig;
+    float currentRotateDegree = 0;
 
     private Socket socket;
     {
@@ -65,29 +74,22 @@ public class BatteryActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_battery);
+        setContentView(R.layout.activity_analog);
 
         //speedSet = findViewById(R.id.seekBar);
         speed = findViewById(R.id.textView);
-        temp = findViewById(R.id.ambTemp);
+        temp = findViewById(R.id.ambTemp);//Ambient temparature
         time = findViewById((R.id.textView2));
         distance = findViewById(R.id.textView4);
         left = findViewById(R.id.imageView);
         right = findViewById(R.id.imageView2);
         hazard = findViewById(R.id.hazardSwitch);
-        battery1 = findViewById(R.id.bat1tv);
-        battery2 = findViewById(R.id.bat2tv);
-        battery3 = findViewById(R.id.bat3tv);
-        battery4 = findViewById(R.id.bat4tv);
-        batteryProg1 = findViewById(R.id.batteryNo1);
-        batteryProg2 = findViewById(R.id.batteryNo2);
-        batteryProg3 = findViewById(R.id.batteryNo3);
-        batteryProg4 = findViewById(R.id.batteryNo4);
         lowBeam = findViewById(R.id.lowBeam);//Low beam icon
         highBeam = findViewById(R.id.highBeam);//High beam icon
         handBrake = findViewById(R.id.handbrake);//Handbrake icon
@@ -96,19 +98,20 @@ public class BatteryActivity extends AppCompatActivity {
         doorOpen = findViewById(R.id.doorOpen);//Door open icon
         abs = findViewById(R.id.abs);//abs icon
         malfunction = findViewById(R.id.malfunction);//Malfunction for battery or motor
-        temp2 = findViewById(R.id.ambientTemp);
-        avgSpeed = findViewById(R.id.avgSpeed);
-        range =findViewById(R.id.range);
-        ambPressure = findViewById(R.id.ambientPressure);
-        motorTemp = findViewById(R.id.motorTemp);
-        batteryTemp = findViewById(R.id.batteryTemp);
-        link = findViewById(R.id.editText2);
+        link = findViewById(R.id.editText);
+        battery = findViewById((R.id.batteryNo));
+        batterytv = findViewById((R.id.battv));
         rangeLeft = findViewById(R.id.range);
 
-        battery1percentage = batteryProg1.getProgress();
-        battery2percentage = batteryProg2.getProgress();
-        battery3percentage = batteryProg3.getProgress();
-        battery4percentage = batteryProg4.getProgress();
+        //Edited by Sachin
+
+        imgSpeedoMeter = (ImageView) findViewById(R.id.analogmeter);
+        imgNeedle = (ImageView) findViewById(R.id.needle);
+        needleBitMapDrawable = (BitmapDrawable) imgNeedle.getDrawable();
+        needleBitMap = needleBitMapDrawable.getBitmap();
+        needleWidth = needleBitMap.getWidth();
+        needleHeight = needleBitMap.getHeight();
+        needleConfig = needleBitMap.getConfig();
 
         temp.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -134,7 +137,11 @@ public class BatteryActivity extends AppCompatActivity {
             }
         });
 
+        //Initializing timer
         Timer timer = new Timer();//Timer initialization
+
+
+//        Date curTime = Calendar.getInstance().getTime();
 
         //Updating the time
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -146,15 +153,31 @@ public class BatteryActivity extends AppCompatActivity {
                 SimpleDateFormat df = new SimpleDateFormat("HH:mm");
                 String formattedDate = df.format(c.getTime());
                 time.setText(formattedDate);//.toString());
+
+
             }
         }, 0, 100);
 
+        //Odometer timer
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                /*dist = dist.add(BigDecimal.valueOf(0.1));
+                distance.setText((String.valueOf(dist)));*/
+                /*Odometric calculation by using Distance = Speed * time
+                where time  = 1hr = [1/(60*60)]secs*/
+                ss = s;
+                dist = dist + ss/3600;
+                distance.setText(String.format("%.1f", dist) + "km");//Show distance upto 1 decimal place in km
+
+            }
+        } , delay, period);
 
 
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                BatteryActivity.this.runOnUiThread(new Runnable() {
+                AnalogActivity.this.runOnUiThread(new Runnable() {
                     public void run() {
                         if (leftFlag.equals("ON")) {
                             if ((left.getDrawable().getConstantState()).equals(getResources().getDrawable(R.drawable.turnleftoff).getConstantState()))
@@ -186,21 +209,43 @@ public class BatteryActivity extends AppCompatActivity {
 
             }
         } , delay, period);
+    }
 
+    //Setting up a touch event listener which will detect right swipe and left swipe and then open a new activity.
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction())
+        {
+            case MotionEvent.ACTION_DOWN://When the screen is touched
+                x1 = event.getX();
+                y1 = event.getY();
+                break;
+            case MotionEvent.ACTION_UP://When screen is untouched
+                x2 = event.getX();
+                y2 = event.getY();
+                if (x1>x2)//when swiped left
+                {
+                    Intent i = new Intent(AnalogActivity.this, MainActivity.class);
+                    startActivity(i);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    //finish();//Closing current activity
+                }
+                else if (x1<x2)
+                {
+                    Intent i = new Intent(AnalogActivity.this, BatteryActivity.class);
+                    startActivity(i);
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                }
+                break;
+        }
+        return false;
     }
 
     private  void avgBattery(float batt1, float batt2, float batt3, float batt4)
     {
         avgBat = (batt1 + batt2 + batt3 + batt4)/4;
-        batteryProg1.setProgress((int) batt1);//setting battery to sensor's battery value using formula
-        batteryProg2.setProgress((int) batt2);//setting battery to sensor's battery value using formula
-        batteryProg3.setProgress((int) batt3);//setting battery to sensor's battery value using formula
-        batteryProg4.setProgress((int) batt4);//setting battery to sensor's battery value using formula
-
-        battery1.setText(((int) batt1) + "%");
-        battery2.setText(((int) batt2) + "%");
-        battery3.setText(((int) batt3) + "%");
-        battery4.setText(((int) batt4) + "%");
+        battery.setProgress((int) avgBat);//setting battery to sensor's avg battery value using formula
+        batterytv.setText(((int) avgBat) + "%");
         rangeLeft.setText("Range: " + String.format("%.1f", (400 * (avgBat/100))) + "km");
 
     }
@@ -287,36 +332,16 @@ public class BatteryActivity extends AppCompatActivity {
             else
                 malfunction.setImageResource(R.drawable.engineoff);
         }
-    }
 
-    //Setting up a touch event listener which will detect right swipe and left swipe and then open a new activity.
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction())
+        if (itemName == "Malfunction")
         {
-            case MotionEvent.ACTION_DOWN://When the screen is touched
-                x1 = event.getX();
-                y1 = event.getY();
-                break;
-            case MotionEvent.ACTION_UP://When screen is untouched
-                x2 = event.getX();
-                y2 = event.getY();
-                if (x1>x2)//when swiped left
-                {
-                    Intent i = new Intent(BatteryActivity.this, AnalogActivity.class);
-                    startActivity(i);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    //finish();//Closing current activity
-                }
-                else if (x1<x2)//right swipe
-                {
-                    Intent i = new Intent(BatteryActivity.this, MainActivity.class);
-                    startActivity(i);
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                }
-                break;
+            if (status.equals("ON"))
+            {
+                malfunction.setImageResource(R.drawable.engine);
+            }
+            else
+                malfunction.setImageResource(R.drawable.engineoff);
         }
-        return false;
     }
 
     //Reads the JSON object that is being sent from the server and changes the TextView value.
@@ -339,48 +364,14 @@ public class BatteryActivity extends AppCompatActivity {
                         SensorValue = data.getString("value");
 
                         switch (Sensor) {
-//                            case "speed":
-//                                speed.setText(SensorValue);
-//                                s = Integer.parseInt(SensorValue);
-//                                break;
-                            case "motor_temp":
-                                motorTemp.setText("Motor Temp: " + SensorValue + "°c");
+                            case "speed":
+                                speed.setText(SensorValue);
+                                s = Integer.parseInt(SensorValue);
+                                currentRotateDegree =(float)(s*1.365);
+                                RotateImage(currentRotateDegree);
                                 break;
-//                            case "batt_charge":
-//                                try{
-//                                    int i = (int) Double.parseDouble(SensorValue);//Converting the string like 100.0 to integer to prevent errors
-//                                    batteryProg1.setProgress(i);
-//                                    batteryProg2.setProgress(i);
-//                                    batteryProg3.setProgress(i);
-//                                    batteryProg4.setProgress(i);
-//                                    battery1percentage = batteryProg1.getProgress();
-//                                    battery2percentage = batteryProg2.getProgress();
-//                                    battery3percentage = batteryProg3.getProgress();
-//                                    battery4percentage = batteryProg4.getProgress();
-//                                    battery1.setText(battery1percentage + "%");
-//                                    battery2.setText(battery2percentage + "%");
-//                                    battery3.setText(battery3percentage + "%");
-//                                    battery4.setText(battery4percentage + "%");
-//                                } catch(NumberFormatException ex) {
-//                                    Toast.makeText(getApplicationContext(), "Parsing error in battery progress!", Toast.LENGTH_LONG).show();
-//                                }
-//
-//                                break;
-//                            case "batt_usage":
-//                                BatteryUsage.setText(SensorValue + "w");
-//                                break;
-                            case "batt_temp":
-                                batteryTemp.setText("Battery Temp: " + SensorValue + "°c");
-                                break;
-//                            case "batt_input":
-//                                BatteryInput.setText(SensorValue + "w");
-//                                break;
                             case "ambient_temp":
                                 temp.setText(SensorValue + "°c");
-                                temp2.setText("Ambient Temp: " + SensorValue + "°c");
-                                break;
-                            case "ambient_pressure":
-                                ambPressure.setText("Ambient Pressure: " + SensorValue + "kPa");
                                 break;
                             case "signal_Left":
                                 leftFlag = SensorValue;
@@ -408,7 +399,7 @@ public class BatteryActivity extends AppCompatActivity {
                                 break;
                             case "warning_Airbag":
                                 lightState(SensorValue, "AirBag");
-                                Toast.makeText(getApplicationContext(), "Airbag: " + SensorValue, Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getApplicationContext(), "Airbag: " + SensorValue, Toast.LENGTH_LONG).show();
                                 break;
                             case "warning_Door":
                                 lightState(SensorValue, "DoorOpen");
@@ -444,4 +435,21 @@ public class BatteryActivity extends AppCompatActivity {
             });
         }
     };
+
+    public void RotateImage(float rotateDegree)
+    {
+        //create a bitmap which has same width and height value of original bitmap
+        Bitmap rotateNeedle = Bitmap.createBitmap(needleWidth,needleHeight,needleConfig);
+        Canvas rotateCanvasNeedle = new Canvas(rotateNeedle);
+        Matrix rotateMatrixNeedle = new Matrix();
+
+        //rotate around the center of the original image
+        rotateMatrixNeedle.setRotate(rotateDegree,needleBitMap.getWidth()/2, needleBitMap.getHeight()/2);
+
+        Paint paint = new Paint();
+        rotateCanvasNeedle.drawBitmap(needleBitMap,rotateMatrixNeedle,paint);
+        imgNeedle.setImageBitmap(rotateNeedle);
+
+
+    }
 }

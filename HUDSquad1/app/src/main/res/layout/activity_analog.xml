@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#E9000000"
-    tools:context=".MainActivity">
+    tools:context=".AnalogActivity">
 
     <ProgressBar
         android:id="@+id/batteryNo"
@@ -19,13 +19,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2"
-        app:layout_constraintVertical_bias="0.247" />
+        app:layout_constraintVertical_bias="0.264" />
 
     <TextView
         android:id="@+id/battv"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginEnd="1172dp"
+        android:layout_marginBottom="100dp"
         android:gravity="center"
         android:text="100%"
         android:textAlignment="center"
@@ -37,6 +38,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/batteryNo"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/range"
+        android:layout_width="373dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="sans-serif"
+        android:gravity="center|left"
+        android:text="-"
+        android:textColor="#FDEEE7E7"
+        app:autoSizeMaxTextSize="35sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.006"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.813" />
 
     <ImageView
         android:id="@+id/handbrake"
@@ -70,8 +92,8 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="373dp"
-        android:layout_height="339dp"
+        android:layout_width="107dp"
+        android:layout_height="75dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -81,16 +103,16 @@
         android:text="-"
         android:textAlignment="center"
         android:textColor="#FDEEE7E7"
-        android:textSize="300sp"
+        android:textSize="75sp"
         android:textStyle="bold"
         app:autoSizeMaxTextSize="300sp"
-        app:autoSizeMinTextSize="200sp"
+        app:autoSizeMinTextSize="50sp"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.471" />
+        app:layout_constraintVertical_bias="0.6" />
 
     <TextView
         android:id="@+id/textView2"
@@ -115,8 +137,8 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="126dp"
-        android:layout_height="86dp"
+        android:layout_width="80dp"
+        android:layout_height="26dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="576dp"
@@ -128,51 +150,28 @@
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.998"
+        app:layout_constraintHorizontal_bias="0.961"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.266" />
+        app:layout_constraintVertical_bias="0.421" />
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="373dp"
-        android:layout_height="78dp"
+        android:layout_width="243dp"
+        android:layout_height="27dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif"
         android:gravity="center"
-        android:text="-"
         android:textColor="#FDEEE7E7"
-        app:autoSizeMaxTextSize="42sp"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.777" />
-
-    <TextView
-        android:id="@+id/range"
-        android:layout_width="373dp"
-        android:layout_height="78dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="sans-serif"
-        android:gravity="center|left"
-        android:text="-"
-        android:textColor="#FDEEE7E7"
-        app:autoSizeMaxTextSize="35sp"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.006"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.807" />
+        app:layout_constraintVertical_bias="0.652" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -187,8 +186,7 @@
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/turnleftoff" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -203,8 +201,7 @@
         app:layout_constraintHorizontal_bias="0.669"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/turnrightoff" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/ambTemp"
@@ -364,4 +361,27 @@
         app:layout_constraintEnd_toStartOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <ImageView
+        android:id="@+id/analogmeter"
+        android:layout_width="600dp"
+        android:layout_height="600dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.414"
+        app:srcCompat="@drawable/speedometer_new" />
+
+    <ImageView
+        android:id="@+id/needle"
+        android:layout_width="550dp"
+        android:layout_height="550dp"
+        android:rotation="2"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        app:srcCompat="@drawable/needle_new_design" />
 </android.support.constraint.ConstraintLayout>

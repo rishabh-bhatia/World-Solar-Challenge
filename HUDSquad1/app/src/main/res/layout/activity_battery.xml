@@ -7,8 +7,67 @@
     android:background="#E9000000"
     tools:context=".BatteryActivity">
 
+    <TextView
+        android:id="@+id/batteryTemp"
+        android:layout_width="500dp"
+        android:layout_height="47dp"
+        android:text="-"
+        android:textAlignment="viewStart"
+        android:textColor="#E8DFDF"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.174"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.817" />
+
+    <TextView
+        android:id="@+id/motorTemp"
+        android:layout_width="500dp"
+        android:layout_height="47dp"
+        android:text="-"
+        android:textAlignment="viewStart"
+        android:textColor="#E8DFDF"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.174"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.677" />
+
+    <TextView
+        android:id="@+id/ambientTemp"
+        android:layout_width="500dp"
+        android:layout_height="47dp"
+        android:text="-"
+        android:textAlignment="viewStart"
+        android:textColor="#E8DFDF"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.174"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.953" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#444444"
+        android:foregroundTint="#444444"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.188"
+        tools:layout_editor_absoluteX="0dp" />
+
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/handbrake"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -21,102 +80,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/brakesystemwarning" />
-
-    <View
-        android:id="@+id/view2"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="#D7D7D7"
-        android:foregroundTint="#D7D7D7"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.188"
-        tools:layout_editor_absoluteX="0dp" />
+        app:srcCompat="@drawable/brakesystemwarningoff" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="373dp"
-        android:layout_height="339dp"
+        android:id="@+id/textView2"
+        android:layout_width="172dp"
+        android:layout_height="58dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif"
         android:gravity="center"
-        android:text="0"
-        android:textAlignment="center"
-        android:textColor="#FDEEE7E7"
-        android:textSize="300sp"
-        android:textStyle="bold"
-        app:autoSizeMaxTextSize="300sp"
-        app:autoSizeMinTextSize="200sp"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.438" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="238dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:ems="10"
-        android:fontFamily="sans-serif"
         android:inputType="none"
+        android:text="-"
         android:textColor="#FDEEE7E7"
+        app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="126dp"
-        android:layout_height="86dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="576dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="sans-serif"
-        android:gravity="center"
-        android:text="km/h"
-        android:textColor="#FDEEE7E7"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.998"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.233" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="373dp"
-        android:layout_height="78dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="sans-serif"
-        android:gravity="center"
-        android:textColor="#FDEEE7E7"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.756" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -131,8 +116,7 @@
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/turnleft" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -147,18 +131,18 @@
         app:layout_constraintHorizontal_bias="0.669"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/turnright" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="68dp"
-        android:layout_height="75dp"
+        android:id="@+id/ambTemp"
+        android:layout_width="86dp"
+        android:layout_height="70dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="sans-serif"
-        android:text="16°"
+        android:gravity="center"
+        android:text="-"
         android:textColor="#FDEEE7E7"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -174,8 +158,8 @@
         android:layout_height="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:background="#D7D7D7"
-        android:foregroundTint="#D7D7D7"
+        android:background="#444444"
+        android:foregroundTint="#444444"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -183,7 +167,7 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/malfunction"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -196,10 +180,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/engine" />
+        app:srcCompat="@drawable/engineoff" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/abs"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -212,10 +196,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/abs" />
+        app:srcCompat="@drawable/absoff" />
 
     <ImageView
-        android:id="@+id/imageView11"
+        android:id="@+id/lowBeam"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -228,10 +212,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/lowbeams" />
+        app:srcCompat="@drawable/lowbeamsoff" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/doorOpen"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -244,10 +228,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/dooropen" />
+        app:srcCompat="@drawable/dooropenoff" />
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/airBag"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -260,10 +244,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/airbag" />
+        app:srcCompat="@drawable/airbagoff" />
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/seatBelt"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -276,10 +260,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/seatbelt" />
+        app:srcCompat="@drawable/seatbeltoff" />
 
     <ImageView
-        android:id="@+id/imageView9"
+        android:id="@+id/highBeam"
         android:layout_width="70dp"
         android:layout_height="60dp"
         android:layout_marginStart="8dp"
@@ -292,10 +276,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="0.466"
-        app:srcCompat="@drawable/highbeams" />
+        app:srcCompat="@drawable/highbeamsoff" />
 
     <ImageView
-        android:id="@+id/imageView10"
+        android:id="@+id/hazardSwitch"
         android:layout_width="150dp"
         android:layout_height="130dp"
         android:layout_marginStart="8dp"
@@ -308,5 +292,207 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/hazardsoff" />
+
+    <ProgressBar
+        android:id="@+id/batteryNo3"
+        style="@style/Widget.ProgressBar.Vertical"
+        android:layout_width="74dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="308dp"
+        android:minHeight="50dp"
+        android:progress="0"
+        android:progressTint="#6FF355"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.271" />
+
+    <TextView
+        android:id="@+id/bat3tv"
+        android:layout_width="74dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="224dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="#FDEEE7E7"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.618"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/batteryNo3"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ProgressBar
+        android:id="@+id/batteryNo2"
+        style="@style/Widget.ProgressBar.Vertical"
+        android:layout_width="74dp"
+        android:layout_height="150dp"
+        android:minHeight="50dp"
+        android:progressTint="#6FF355"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.388"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.271" />
+
+    <TextView
+        android:id="@+id/bat2tv"
+        android:layout_width="74dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="204dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="#FDEEE7E7"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.263"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/batteryNo2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ProgressBar
+        android:id="@+id/batteryNo1"
+        style="@style/Widget.ProgressBar.Vertical"
+        android:layout_width="74dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="76dp"
+        android:minHeight="50dp"
+        android:progressTint="#6FF355"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.053"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.271" />
+
+    <TextView
+        android:id="@+id/bat1tv"
+        android:layout_width="74dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="76dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="#FDEEE7E7"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.053"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/batteryNo1"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ProgressBar
+        android:id="@+id/batteryNo4"
+        style="@style/Widget.ProgressBar.Vertical"
+        android:layout_width="74dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="412dp"
+        android:minHeight="50dp"
+        android:progressTint="#6FF355"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.848"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.271" />
+
+    <TextView
+        android:id="@+id/bat4tv"
+        android:layout_width="74dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="412dp"
+        android:layout_marginBottom="216dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="#FDEEE7E7"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.848"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/batteryNo4"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/range"
+        android:layout_width="500dp"
+        android:layout_height="47dp"
+        android:text="-"
+        android:textAlignment="viewStart"
+        android:textColor="#E8DFDF"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.846"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.817" />
+
+    <TextView
+        android:id="@+id/ambientPressure"
+        android:layout_width="500dp"
+        android:layout_height="47dp"
+        android:text="-"
+        android:textAlignment="viewStart"
+        android:textColor="#E8DFDF"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.846"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.953" />
+
+    <TextView
+        android:id="@+id/avgSpeed"
+        android:layout_width="500dp"
+        android:layout_height="47dp"
+        android:text="Avg. Speed: 50 km/h"
+        android:textAlignment="viewStart"
+        android:textColor="#E8DFDF"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.846"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.677" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="466dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="12dp"
+        android:text="Battery Health: "
+        android:textAlignment="center"
+        android:textColor="#E8DFDF"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.006" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="380dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:textColor="#E8DFDF"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/view3"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 </android.support.constraint.ConstraintLayout>
